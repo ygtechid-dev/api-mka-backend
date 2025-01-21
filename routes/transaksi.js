@@ -8,7 +8,7 @@ router.get('/transaksi', async (req, res) => {
     // Ambil semua transaksi
     const { data: transaksi, error: transaksiError } = await supabase
       .from('transaksi')
-      .select('id, tanggaltransaksi, pesanan, totalharga, metodepembayaran, statuspembayaran, modeserving, nomormeja');
+      .select('id, tanggaltransaksi, pesanan, totalharga, metodepembayaran, statuspembayaran, modeserving, nomormeja, namapemesan, nomorpemesan');
 
     if (transaksiError) throw transaksiError;
 
@@ -39,7 +39,7 @@ router.get('/transaksi/:id', async (req, res) => {
     // Ambil transaksi berdasarkan ID
     const { data: transaksi, error: transaksiError } = await supabase
       .from('transaksi')
-      .select('id, tanggaltransaksi, pesanan, totalharga, metodepembayaran, statuspembayaran, modeserving, nomormeja')
+      .select('id, tanggaltransaksi, pesanan, totalharga, metodepembayaran, statuspembayaran, modeserving, nomormeja, namapemesan, nomorpemesan')
       .eq('id', id);
 
     if (transaksiError) throw transaksiError;
@@ -63,7 +63,7 @@ router.get('/transaksi/:id', async (req, res) => {
 
 // POST: Tambah transaksi baru
 router.post('/transaksi', async (req, res) => {
-  const { pesanan, totalharga, metodepembayaran, statuspembayaran, modeserving, nomormeja } = req.body;
+  const { pesanan, totalharga, metodepembayaran, statuspembayaran, modeserving, nomormeja, namapemesan, nomorpemesan } = req.body;
 
   try {
     const { data, error } = await supabase
@@ -75,7 +75,9 @@ router.post('/transaksi', async (req, res) => {
           metodepembayaran, 
           statuspembayaran, 
           modeserving, 
-          nomormeja 
+          nomormeja, 
+          namapemesan,
+          nomorpemesan
         }, // Data transaksi yang dimasukkan
       ]);
 
