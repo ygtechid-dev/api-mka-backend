@@ -37,13 +37,13 @@ router.get('/pengajuan/:id', async (req, res) => {
 
 // POST: Tambah data pengajuan baru
 router.post('/pengajuan', async (req, res) => {
-  const { id_pemohon, namaproduk, jumlah, tanggal_pengajuan, status, tanggal_approve } = req.body;
+  const { id_pemohon, namaproduk, jumlah, tanggal_pengajuan, status, tanggal_approve, id_mitra } = req.body;
 
   try {
     const { data, error } = await supabase
       .from('pengajuan')
       .insert([
-        { id_pemohon, namaproduk, jumlah, tanggal_pengajuan, status, tanggal_approve },
+        { id_pemohon, namaproduk, jumlah, tanggal_pengajuan, status, tanggal_approve, id_mitra },
       ]);
 
     if (error) throw error;
@@ -54,15 +54,17 @@ router.post('/pengajuan', async (req, res) => {
   }
 });
 
+
+
 // PUT: Update data pengajuan berdasarkan ID
 router.put('/pengajuan/:id', async (req, res) => {
   const { id } = req.params;
-  const { status, tanggal_approve } = req.body;
+  const { status, tanggal_approve, id_mitra } = req.body;
 
   try {
     const { data, error } = await supabase
       .from('pengajuan')
-      .update({ status, tanggal_approve })
+      .update({ status, tanggal_approve, id_mitra })
       .eq('id', id); // Filter berdasarkan ID
 
     if (error) throw error;
