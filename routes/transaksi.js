@@ -63,31 +63,28 @@ router.get('/transaksi/:id', async (req, res) => {
 
 // POST: Tambah transaksi baru
 router.post('/transaksi', async (req, res) => {
-  const { pesanan, totalharga, metodepembayaran, statuspembayaran, modeserving, nomormeja, namapemesan, nomorpemesan } = req.body;
-
-  try {
-    const { data, error } = await supabase
-      .from('transaksi')
-      .insert([
-        { 
-          pesanan, 
-          totalharga, 
-          metodepembayaran, 
-          statuspembayaran, 
-          modeserving, 
-          nomormeja, 
-          namapemesan,
-          nomorpemesan
-        }, // Data transaksi yang dimasukkan
-      ]);
-
-    if (error) throw error;
-
-    res.status(201).json({ success: true, data });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
+    const { pesanan, totalharga, metodepembayaran, statuspembayaran, modeserving, nomormeja } = req.body;
+  
+    // Validasi request body
+    if (!pesanan || pesanan.length === 0) {
+      return res.status(400).json({ success: false, error: 'Pesanan tidak boleh kosong.' });
+    }
+  
+    try {
+      const { data, error } = await supabase
+        .from('transaksi')
+        .insert([
+          { pesanan, totalharga, metodepembayaran, statuspembayaran, modeserving, nomormeja }, // Data transaksi
+        ]);
+  
+      if (error) throw error;
+  
+      res.status(201).json({ success: true, data });
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+  
 
 // PUT: Update transaksi berdasarkan ID
 router.put('/transaksi/:id', async (req, res) => {
