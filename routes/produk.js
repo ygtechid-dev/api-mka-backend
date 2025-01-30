@@ -2,7 +2,48 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../supabaseClient'); // Import Supabase Client
 
-// GET: Ambil semua data produk
+/**
+ * @swagger
+ * tags:
+ *   name: Produk
+ *   description: API for managing produk
+ */
+
+/**
+ * @swagger
+ * /produk:
+ *   get:
+ *     summary: Retrieve all produk
+ *     tags: [Produk]
+ *     responses:
+ *       200:
+ *         description: A list of produk
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       namaproduk:
+ *                         type: string
+ *                         example: Kopi Hitam
+ *                       kategori:
+ *                         type: string
+ *                         example: Minuman
+ *                       jmlstok:
+ *                         type: integer
+ *                         example: 50
+ */
 router.get('/produk', async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -17,7 +58,40 @@ router.get('/produk', async (req, res) => {
   }
 });
 
-// GET: Ambil produk berdasarkan ID
+/**
+ * @swagger
+ * /produk/{id}:
+ *   get:
+ *     summary: Retrieve a produk by ID
+ *     tags: [Produk]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The produk ID
+ *     responses:
+ *       200:
+ *         description: Details of a produk
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     namaproduk:
+ *                       type: string
+ *                       example: Kopi Hitam
+ */
 router.get('/produk/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -35,7 +109,44 @@ router.get('/produk/:id', async (req, res) => {
   }
 });
 
-// POST: Tambah data produk baru
+/**
+ * @swagger
+ * /produk:
+ *   post:
+ *     summary: Create a new produk
+ *     tags: [Produk]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               namaproduk:
+ *                 type: string
+ *                 example: Kopi Hitam
+ *               kategori:
+ *                 type: string
+ *                 example: Minuman
+ *               subkategori:
+ *                 type: string
+ *                 example: Kopi
+ *               supplier:
+ *                 type: string
+ *                 example: PT. Kopi Nusantara
+ *               jmlstok:
+ *                 type: integer
+ *                 example: 50
+ *               hargajual:
+ *                 type: number
+ *                 example: 15000
+ *               hargamodal:
+ *                 type: number
+ *                 example: 10000
+ *     responses:
+ *       201:
+ *         description: The produk was successfully created
+ */
 router.post('/produk', async (req, res) => {
   const { namaproduk, kategori, subkategori, supplier, jmlstok, fotoproduk, hargajual, hargamodal } = req.body;
 
@@ -54,7 +165,51 @@ router.post('/produk', async (req, res) => {
   }
 });
 
-// PUT: Update data produk berdasarkan ID
+/**
+ * @swagger
+ * /produk/{id}:
+ *   put:
+ *     summary: Update a produk by ID
+ *     tags: [Produk]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The produk ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               namaproduk:
+ *                 type: string
+ *                 example: Kopi Hitam
+ *               kategori:
+ *                 type: string
+ *                 example: Minuman
+ *               subkategori:
+ *                 type: string
+ *                 example: Kopi
+ *               supplier:
+ *                 type: string
+ *                 example: PT. Kopi Nusantara
+ *               jmlstok:
+ *                 type: integer
+ *                 example: 50
+ *               hargajual:
+ *                 type: number
+ *                 example: 15000
+ *               hargamodal:
+ *                 type: number
+ *                 example: 10000
+ *     responses:
+ *       200:
+ *         description: The produk was successfully updated
+ */
 router.put('/produk/:id', async (req, res) => {
   const { id } = req.params;
   const { namaproduk, kategori, subkategori, supplier, jmlstok, fotoproduk, hargajual, hargamodal } = req.body;
@@ -73,7 +228,23 @@ router.put('/produk/:id', async (req, res) => {
   }
 });
 
-// DELETE: Hapus data produk berdasarkan ID
+/**
+ * @swagger
+ * /produk/{id}:
+ *   delete:
+ *     summary: Delete a produk by ID
+ *     tags: [Produk]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The produk ID
+ *     responses:
+ *       200:
+ *         description: The produk was successfully deleted
+ */
 router.delete('/produk/:id', async (req, res) => {
   const { id } = req.params;
 
