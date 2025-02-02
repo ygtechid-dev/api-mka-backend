@@ -5,19 +5,19 @@ const supabase = require('../supabaseClient'); // Import Supabase Client
 /**
  * @swagger
  * tags:
- *   name: Pengajuan
- *   description: API for managing pengajuan
+ *   name: Suppliers
+ *   description: API for managing suppliers
  */
 
 /**
  * @swagger
- * /pengajuan:
+ * /suppliers:
  *   get:
- *     summary: Retrieve all pengajuan
- *     tags: [Pengajuan]
+ *     summary: Retrieve all suppliers
+ *     tags: [Suppliers]
  *     responses:
  *       200:
- *         description: A list of pengajuan
+ *         description: A list of suppliers
  *         content:
  *           application/json:
  *             schema:
@@ -34,27 +34,14 @@ const supabase = require('../supabaseClient'); // Import Supabase Client
  *                       id:
  *                         type: integer
  *                         example: 1
- *                       id_pemohon:
- *                         type: integer
- *                         example: 101
- *                       namaproduk:
+ *                       nama_supplier:
  *                         type: string
- *                         example: Laptop
- *                       jumlah:
- *                         type: integer
- *                         example: 10
- *                       tanggal_pengajuan:
- *                         type: string
- *                         format: date
- *                         example: "2025-01-25"
- *                       status:
- *                         type: string
- *                         example: "pending"
+ *                         example: MKA
  */
-router.get('/pengajuan', async (req, res) => {
+router.get('/suppliers', async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from('pengajuan')
+      .from('supplier')
       .select('*');
 
     if (error) throw error;
@@ -67,21 +54,21 @@ router.get('/pengajuan', async (req, res) => {
 
 /**
  * @swagger
- * /pengajuan/{id}:
+ * /suppliers/{id}:
  *   get:
- *     summary: Retrieve a pengajuan by ID
- *     tags: [Pengajuan]
+ *     summary: Retrieve a supplier by ID
+ *     tags: [Suppliers]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID of the pengajuan
+ *         description: Supplier ID
  *         schema:
  *           type: integer
  *           example: 1
  *     responses:
  *       200:
- *         description: A pengajuan object
+ *         description: A supplier
  *         content:
  *           application/json:
  *             schema:
@@ -96,29 +83,16 @@ router.get('/pengajuan', async (req, res) => {
  *                     id:
  *                       type: integer
  *                       example: 1
- *                     id_pemohon:
- *                       type: integer
- *                       example: 101
- *                     namaproduk:
+ *                     nama_supplier:
  *                       type: string
- *                       example: Laptop
- *                     jumlah:
- *                       type: integer
- *                       example: 10
- *                     tanggal_pengajuan:
- *                       type: string
- *                       format: date
- *                       example: "2025-01-25"
- *                     status:
- *                       type: string
- *                       example: "pending"
+ *                       example: MKA
  */
-router.get('/pengajuan/:id', async (req, res) => {
+router.get('/suppliers/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
     const { data, error } = await supabase
-      .from('pengajuan')
+      .from('supplier')
       .select('*')
       .eq('id', id);
 
@@ -132,10 +106,10 @@ router.get('/pengajuan/:id', async (req, res) => {
 
 /**
  * @swagger
- * /pengajuan:
+ * /suppliers:
  *   post:
- *     summary: Create a new pengajuan
- *     tags: [Pengajuan]
+ *     summary: Add a new supplier
+ *     tags: [Suppliers]
  *     requestBody:
  *       required: true
  *       content:
@@ -143,32 +117,12 @@ router.get('/pengajuan/:id', async (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               id_pemohon:
- *                 type: integer
- *                 example: 101
- *               namaproduk:
+ *               nama_supplier:
  *                 type: string
- *                 example: Laptop
- *               jumlah:
- *                 type: integer
- *                 example: 10
- *               tanggal_pengajuan:
- *                 type: string
- *                 format: date
- *                 example: "2025-01-25"
- *               status:
- *                 type: string
- *                 example: "pending"
- *               tanggal_approve:
- *                 type: string
- *                 format: date
- *                 example: "2025-02-01"
- *               id_mitra:
- *                 type: integer
- *                 example: 202
+ *                 example: Kedai NgopiDuluKawan
  *     responses:
  *       201:
- *         description: Pengajuan successfully created
+ *         description: Supplier successfully created
  *         content:
  *           application/json:
  *             schema:
@@ -183,30 +137,17 @@ router.get('/pengajuan/:id', async (req, res) => {
  *                     id:
  *                       type: integer
  *                       example: 1
- *                     id_pemohon:
- *                       type: integer
- *                       example: 101
- *                     namaproduk:
+ *                     nama_supplier:
  *                       type: string
- *                       example: Laptop
- *                     jumlah:
- *                       type: integer
- *                       example: 10
- *                     tanggal_pengajuan:
- *                       type: string
- *                       format: date
- *                       example: "2025-01-25"
- *                     status:
- *                       type: string
- *                       example: "pending"
+ *                       example: Kedai NgopiDuluKawan
  */
-router.post('/pengajuan', async (req, res) => {
-  const { id_pemohon, namaproduk, jumlah, tanggal_pengajuan, status, tanggal_approve, id_mitra } = req.body;
+router.post('/suppliers', async (req, res) => {
+  const { nama_supplier } = req.body;
 
   try {
     const { data, error } = await supabase
-      .from('pengajuan')
-      .insert([{ id_pemohon, namaproduk, jumlah, tanggal_pengajuan, status, tanggal_approve, id_mitra }]);
+      .from('supplier')
+      .insert([{ nama_supplier }]);
 
     if (error) throw error;
 
@@ -218,15 +159,15 @@ router.post('/pengajuan', async (req, res) => {
 
 /**
  * @swagger
- * /pengajuan/{id}:
+ * /suppliers/{id}:
  *   put:
- *     summary: Update a pengajuan by ID
- *     tags: [Pengajuan]
+ *     summary: Update a supplier by ID
+ *     tags: [Suppliers]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID of the pengajuan
+ *         description: Supplier ID
  *         schema:
  *           type: integer
  *           example: 1
@@ -237,19 +178,12 @@ router.post('/pengajuan', async (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               status:
+ *               nama_supplier:
  *                 type: string
- *                 example: "approved"
- *               tanggal_approve:
- *                 type: string
- *                 format: date
- *                 example: "2025-02-01"
- *               id_mitra:
- *                 type: integer
- *                 example: 202
+ *                 example: Toko Kopi Baru
  *     responses:
  *       200:
- *         description: Pengajuan successfully updated
+ *         description: Supplier successfully updated
  *         content:
  *           application/json:
  *             schema:
@@ -264,22 +198,18 @@ router.post('/pengajuan', async (req, res) => {
  *                     id:
  *                       type: integer
  *                       example: 1
- *                     status:
+ *                     nama_supplier:
  *                       type: string
- *                       example: "approved"
- *                     tanggal_approve:
- *                       type: string
- *                       format: date
- *                       example: "2025-02-01"
+ *                       example: Toko Kopi Baru
  */
-router.put('/pengajuan/:id', async (req, res) => {
+router.put('/suppliers/:id', async (req, res) => {
   const { id } = req.params;
-  const { status, tanggal_approve, id_mitra } = req.body;
+  const { nama_supplier } = req.body;
 
   try {
     const { data, error } = await supabase
-      .from('pengajuan')
-      .update({ status, tanggal_approve, id_mitra })
+      .from('supplier')
+      .update({ nama_supplier })
       .eq('id', id);
 
     if (error) throw error;
@@ -292,28 +222,28 @@ router.put('/pengajuan/:id', async (req, res) => {
 
 /**
  * @swagger
- * /pengajuan/{id}:
+ * /suppliers/{id}:
  *   delete:
- *     summary: Delete a pengajuan by ID
- *     tags: [Pengajuan]
+ *     summary: Delete a supplier by ID
+ *     tags: [Suppliers]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID of the pengajuan
+ *         description: Supplier ID
  *         schema:
  *           type: integer
  *           example: 1
  *     responses:
  *       200:
- *         description: Pengajuan successfully deleted
+ *         description: Supplier successfully deleted
  */
-router.delete('/pengajuan/:id', async (req, res) => {
+router.delete('/suppliers/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
     const { data, error } = await supabase
-      .from('pengajuan')
+      .from('supplier')
       .delete()
       .eq('id', id);
 

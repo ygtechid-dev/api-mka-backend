@@ -5,19 +5,19 @@ const supabase = require('../supabaseClient'); // Import Supabase Client
 /**
  * @swagger
  * tags:
- *   name: Mitra
- *   description: API for managing mitra
+ *   name: Subkategori
+ *   description: API for managing subcategories
  */
 
 /**
  * @swagger
- * /mitra:
+ * /subkategori:
  *   get:
- *     summary: Retrieve all mitra
- *     tags: [Mitra]
+ *     summary: Retrieve all subcategories
+ *     tags: [Subkategori]
  *     responses:
  *       200:
- *         description: A list of mitra
+ *         description: A list of subcategories
  *         content:
  *           application/json:
  *             schema:
@@ -34,26 +34,14 @@ const supabase = require('../supabaseClient'); // Import Supabase Client
  *                       id:
  *                         type: integer
  *                         example: 1
- *                       namamitra:
+ *                       nama_subkategori:
  *                         type: string
- *                         example: Mitra A
- *                       lokasimitra:
- *                         type: string
- *                         example: Jakarta
- *                       nomorhandphone:
- *                         type: string
- *                         example: "08123456789"
- *                       nama_pic:
- *                         type: string
- *                         example: John Doe
- *                       nik_pic:
- *                         type: string
- *                         example: "1234567890123456"
+ *                         example: Snack
  */
-router.get('/mitra', async (req, res) => {
+router.get('/subkategori', async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from('mitra')
+      .from('subkategori')
       .select('*'); // Select all columns
 
     if (error) throw error;
@@ -66,21 +54,21 @@ router.get('/mitra', async (req, res) => {
 
 /**
  * @swagger
- * /mitra/{id}:
+ * /subkategori/{id}:
  *   get:
- *     summary: Retrieve a mitra by ID
- *     tags: [Mitra]
+ *     summary: Retrieve a subcategory by ID
+ *     tags: [Subkategori]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID of the mitra
+ *         description: ID of the subcategory
  *         schema:
  *           type: integer
  *           example: 1
  *     responses:
  *       200:
- *         description: A mitra object
+ *         description: A subcategory object
  *         content:
  *           application/json:
  *             schema:
@@ -95,28 +83,16 @@ router.get('/mitra', async (req, res) => {
  *                     id:
  *                       type: integer
  *                       example: 1
- *                     namamitra:
+ *                     nama_subkategori:
  *                       type: string
- *                       example: Mitra A
- *                     lokasimitra:
- *                       type: string
- *                       example: Jakarta
- *                     nomorhandphone:
- *                       type: string
- *                       example: "08123456789"
- *                     nama_pic:
- *                       type: string
- *                       example: John Doe
- *                     nik_pic:
- *                       type: string
- *                       example: "1234567890123456"
+ *                       example: Snack
  */
-router.get('/mitra/:id', async (req, res) => {
+router.get('/subkategori/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
     const { data, error } = await supabase
-      .from('mitra')
+      .from('subkategori')
       .select('*')
       .eq('id', id); // Filter by ID
 
@@ -130,10 +106,10 @@ router.get('/mitra/:id', async (req, res) => {
 
 /**
  * @swagger
- * /mitra:
+ * /subkategori:
  *   post:
- *     summary: Create a new mitra
- *     tags: [Mitra]
+ *     summary: Create a new subcategory
+ *     tags: [Subkategori]
  *     requestBody:
  *       required: true
  *       content:
@@ -141,24 +117,12 @@ router.get('/mitra/:id', async (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               namamitra:
+ *               nama_subkategori:
  *                 type: string
- *                 example: Mitra A
- *               lokasimitra:
- *                 type: string
- *                 example: Jakarta
- *               nomorhandphone:
- *                 type: string
- *                 example: "08123456789"
- *               nama_pic:
- *                 type: string
- *                 example: John Doe
- *               nik_pic:
- *                 type: string
- *                 example: "1234567890123456"
+ *                 example: Snack
  *     responses:
  *       201:
- *         description: Mitra successfully created
+ *         description: Subcategory successfully created
  *         content:
  *           application/json:
  *             schema:
@@ -173,31 +137,17 @@ router.get('/mitra/:id', async (req, res) => {
  *                     id:
  *                       type: integer
  *                       example: 1
- *                     namamitra:
+ *                     nama_subkategori:
  *                       type: string
- *                       example: Mitra A
- *                     lokasimitra:
- *                       type: string
- *                       example: Jakarta
- *                     nomorhandphone:
- *                       type: string
- *                       example: "08123456789"
- *                     nama_pic:
- *                       type: string
- *                       example: John Doe
- *                     nik_pic:
- *                       type: string
- *                       example: "1234567890123456"
+ *                       example: Snack
  */
-router.post('/mitra', async (req, res) => {
-  const { namamitra, lokasimitra, nomorhandphone, nama_pic, nik_pic } = req.body;
+router.post('/subkategori', async (req, res) => {
+  const { nama_subkategori } = req.body;
 
   try {
     const { data, error } = await supabase
-      .from('mitra')
-      .insert([
-        { namamitra, lokasimitra, nomorhandphone, nama_pic, nik_pic }, // Insert data
-      ]);
+      .from('subkategori')
+      .insert([{ nama_subkategori }]); // Insert data
 
     if (error) throw error;
 
@@ -209,15 +159,15 @@ router.post('/mitra', async (req, res) => {
 
 /**
  * @swagger
- * /mitra/{id}:
+ * /subkategori/{id}:
  *   put:
- *     summary: Update mitra by ID
- *     tags: [Mitra]
+ *     summary: Update a subcategory by ID
+ *     tags: [Subkategori]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID of the mitra
+ *         description: ID of the subcategory
  *         schema:
  *           type: integer
  *           example: 1
@@ -228,24 +178,12 @@ router.post('/mitra', async (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               namamitra:
+ *               nama_subkategori:
  *                 type: string
- *                 example: Mitra A Updated
- *               lokasimitra:
- *                 type: string
- *                 example: Jakarta Updated
- *               nomorhandphone:
- *                 type: string
- *                 example: "08123456789"
- *               nama_pic:
- *                 type: string
- *                 example: Jane Doe
- *               nik_pic:
- *                 type: string
- *                 example: "1234567890123456"
+ *                 example: Snack Updated
  *     responses:
  *       200:
- *         description: Mitra successfully updated
+ *         description: Subcategory successfully updated
  *         content:
  *           application/json:
  *             schema:
@@ -260,30 +198,18 @@ router.post('/mitra', async (req, res) => {
  *                     id:
  *                       type: integer
  *                       example: 1
- *                     namamitra:
+ *                     nama_subkategori:
  *                       type: string
- *                       example: Mitra A Updated
- *                     lokasimitra:
- *                       type: string
- *                       example: Jakarta Updated
- *                     nomorhandphone:
- *                       type: string
- *                       example: "08123456789"
- *                     nama_pic:
- *                       type: string
- *                       example: Jane Doe
- *                     nik_pic:
- *                       type: string
- *                       example: "1234567890123456"
+ *                       example: Snack Updated
  */
-router.put('/mitra/:id', async (req, res) => {
+router.put('/subkategori/:id', async (req, res) => {
   const { id } = req.params;
-  const { namamitra, lokasimitra, nomorhandphone, nama_pic, nik_pic } = req.body;
+  const { nama_subkategori } = req.body;
 
   try {
     const { data, error } = await supabase
-      .from('mitra')
-      .update({ namamitra, lokasimitra, nomorhandphone, nama_pic, nik_pic }) // Update the data
+      .from('subkategori')
+      .update({ nama_subkategori }) // Update the data
       .eq('id', id); // Filter by ID
 
     if (error) throw error;
@@ -296,28 +222,28 @@ router.put('/mitra/:id', async (req, res) => {
 
 /**
  * @swagger
- * /mitra/{id}:
+ * /subkategori/{id}:
  *   delete:
- *     summary: Delete mitra by ID
- *     tags: [Mitra]
+ *     summary: Delete a subcategory by ID
+ *     tags: [Subkategori]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID of the mitra
+ *         description: ID of the subcategory
  *         schema:
  *           type: integer
  *           example: 1
  *     responses:
  *       200:
- *         description: Mitra successfully deleted
+ *         description: Subcategory successfully deleted
  */
-router.delete('/mitra/:id', async (req, res) => {
+router.delete('/subkategori/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
     const { data, error } = await supabase
-      .from('mitra')
+      .from('subkategori')
       .delete()
       .eq('id', id); // Filter by ID
 
